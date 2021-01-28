@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Menu from './Menu';
 import HeaderBlock from './HeaderBlock';
+import Login from './Login';
 
 function App() {
   const [isMenuOpen, SetisMenuOpen] = useState(false);
@@ -17,9 +18,16 @@ function App() {
   return (
     <Router>
       <div className='app'>
-        <Header isMenuOpen={isMenuOpen} SetisMenuOpen={SetisMenuOpen} />
-        {isMenuOpen && <Menu />}
-        <HeaderBlock />
+        <Switch>
+          <Route path='/login'>
+            <Login />
+          </Route>
+          <Route exact path='/'>
+            <Header isMenuOpen={isMenuOpen} SetisMenuOpen={SetisMenuOpen} />
+            {isMenuOpen && <Menu />}
+            <HeaderBlock />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
