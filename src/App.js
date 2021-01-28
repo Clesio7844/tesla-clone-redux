@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './App.css';
 import Header from './Header';
@@ -10,10 +10,12 @@ import {
 } from 'react-router-dom';
 
 function App() {
+  const [isMenuOpen, SetisMenuOpen] = useState(false);
+
   return (
     <Router>
       <div className='app'>
-        <Header />
+        <Header isMenuOpen={isMenuOpen} SetisMenuOpen={SetisMenuOpen} />
         {/* header */}
         {/* headerBlock */}
       </div>
