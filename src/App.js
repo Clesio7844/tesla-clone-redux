@@ -8,6 +8,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
+import Menu from './Menu';
 
 function App() {
   const [isMenuOpen, SetisMenuOpen] = useState(false);
@@ -16,8 +17,7 @@ function App() {
     <Router>
       <div className='app'>
         <Header isMenuOpen={isMenuOpen} SetisMenuOpen={SetisMenuOpen} />
-        {/* header */}
-        {/* headerBlock */}
+        {isMenuOpen && <Menu />}
       </div>
     </Router>
   );
