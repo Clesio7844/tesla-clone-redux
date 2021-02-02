@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import LanguageIcon from '@material-ui/icons/Language';
 import ButtonPrimary from './ButtonPrimary';
 import ButtonSecondary from './ButtonSecondary';
+import { auth } from './firebase';
+import { useDispatch } from 'react-redux';
+import { login } from './features/userSlice';
 
 function Login() {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const signIn = e => {
     e.preventDefault();
+
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(userAuth => {
+        dispatch(
+          login({
+            email: userAuth.user.email,
+            uid: userAuth.user.uid,
+            diplayName: userAuth.user.displayName
+          })
+        );
+        history.push('/teslaaccount');
+      })
+      .catch(error => alert(error.message));
   };
 
   return (
