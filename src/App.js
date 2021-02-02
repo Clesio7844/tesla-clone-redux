@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './App.css';
 import Header from './Header';
@@ -11,21 +11,41 @@ import {
 import Menu from './Menu';
 import HeaderBlock from './HeaderBlock';
 import Login from './Login';
-import { useSelector } from 'react-redux';
-import { selectuser } from './features/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectuser, login, logout } from './features/userSlice';
 import Signup from './Signup';
 import TeslaAccount from './TeslaAccount';
+import { auth } from './firebase';
 
 function App() {
   const [isMenuOpen, SetisMenuOpen] = useState(false);
   const user = useSelector(selectuser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    auth.onAuthStateChanged(userAuth => {
+      if (userAuth) {
+        // user is sign in
+        dispatch(
+          login({
+            email: userAuth.email,
+            uid: userAuth.uid,
+            displayName: userAuth.displayName
+          })
+        );
+      } else {
+        // user is signed out
+        dispatch(logout());
+      }
+    });
+  }, [dispatch]);
 
   return (
     <Router>
       <div className='app'>
         <Switch>
           <Route exact path='/teslaaccount'>
-            {user ? (
+            {!user ? (
               <Redirect to='/login' />
             ) : (
               <>
